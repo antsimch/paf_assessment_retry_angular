@@ -1,0 +1,76 @@
+<div>
+    <h1>Search Our Accomodation</h1>
+</div>
+
+<div *ngIf="countryList[0]">
+    <form [formGroup]="searchForm" (ngSubmit)="searchForAcc()">
+        <table>
+            <tr>
+                <td>Country:</td>
+                <td>
+                    <select formControlName="country">
+                        <option 
+                            *ngFor="let country of countryList" 
+                            [value]="country"
+                            >{{ country }}</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Number of person:</td>
+                <td>
+                    <input type="number" formControlName="numberOfPerson">
+                    <div 
+                        *ngIf="searchForm.get('numberOfPerson')
+                                ?.hasError('required')"
+                        style="color:red"
+                        >Please enter number of person</div>
+                    <div 
+                        *ngIf="searchForm.get('numberOfPerson')
+                                ?.hasError('min')"
+                        style="color:red"
+                        >Number of person cannot be less than 1</div>
+                    <div 
+                        *ngIf="searchForm.get('numberOfPerson')
+                                ?.hasError('max')"
+                        style="color:red"
+                        >Number of person cannot be more than 10</div>
+                </td>
+            </tr>
+            <tr>
+                <td>Price Range:</td>
+                <td>
+                    Min
+                    <input type="number" formControlName="priceMin">
+                    Max
+                    <input type="number" formControlName="priceMax">
+                    <div
+                        *ngIf="searchForm.get('priceMin')?.hasError('min')"
+                        style="color:red"
+                        >Minimum price cannot be less than 1</div>
+                    <div 
+                        *ngIf="searchForm.get('priceMin')?.hasError('max')"
+                        style="color:red"
+                        >Minimum price cannot be more than 10000</div>
+                    <div
+                        *ngIf="searchForm.get('priceMax')?.hasError('min')"
+                        style="color:red"
+                        >Maximum price cannot be less than 1</div>
+                    <div 
+                        *ngIf="searchForm.get('priceMax')?.hasError('max')"
+                        style="color:red"
+                        >Maximum price cannot be more than 10000</div>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <button 
+                        type="submit" 
+                        [disabled]="searchForm.invalid"
+                        >Search</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>

@@ -1,0 +1,136 @@
+<div>
+    <button type="button" (click)="goBack()">Back</button>
+</div>
+
+<br>
+<div *ngIf="details; else loading">
+    <table border="1">
+        <tr>
+            <td>Id:</td>
+            <td>{{ details.id }}</td>
+        </tr>
+        <tr>
+            <td>Description:</td>
+            <td>{{ details.description }}</td>
+        </tr>
+        <tr>
+            <td>Address:</td>
+            <td>
+                <div *ngFor="let add of details.address">
+                    {{ add }}
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>Price:</td>
+            <td>{{ details.price }}</td>
+        </tr>
+        <tr>
+            <td>Amenities:</td>
+            <td>{{ details.amenities }}</td>
+        </tr>
+        <tr>
+            <td>Image: </td>
+            <td>
+                <img [src]="details.image">
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div *ngIf="bookingForm; else loading">
+    <h2>Bookings</h2>
+
+    <form [formGroup]="bookingForm" (ngSubmit)="createBooking()">
+        <table>
+            <tr>
+                <td>Name:</td>
+                <td>
+                    <input 
+                        type="text" 
+                        placeholder="Please enter your name" 
+                        formControlName="name">
+
+                    <span 
+                        *ngIf="bookingForm.get('name')?.hasError('required') 
+                                && bookingForm.get('name')?.touched"
+                        style="color:red"
+                        >Please enter your name</span>
+
+                    <span 
+                        *ngIf="error?.name" 
+                        style="color:red"
+                        >{{ error.name }}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>Email:</td>
+                <td>
+                    <input 
+                        type="email" 
+                        placeholder="Please enter your email" 
+                        formControlName="email">
+
+                    <span 
+                        *ngIf="bookingForm.get('email')?.hasError('required')
+                                && bookingForm.get('email')?.touched" 
+                        style="color:red"
+                        >Please enter your email</span>
+
+                    <span 
+                        *ngIf="bookingForm.get('email')?.hasError('email')" 
+                        style="color:red"
+                        >Please enter a valid email</span>
+
+                    <span 
+                        *ngIf="error?.email" 
+                        style="color:red"
+                        >{{ error.email }}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>Arrival:</td>
+                <td>
+                    <input type="date" formControlName="arrival">
+
+                    <span 
+                        *ngIf="bookingForm.get('arrival')?.hasError('lessThanToday')" 
+                        style="color:red"
+                        >Arrival date cannot be earlier than today</span>
+
+                    <span 
+                        *ngIf="error?.arrival" 
+                        style="color:red"
+                        >{{ error.arrival }}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>Stay:</td>
+                <td>
+                    <input type="number" formControlName="duration">
+
+                    <span 
+                        *ngIf="bookingForm.get('duration')?.hasError('required')" 
+                        style="color:red"
+                        >Please enter duration of stay</span>
+
+                    <span 
+                        *ngIf="error?.duration" 
+                        style="color:red"
+                        >{{ error.duration }}</span>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <button 
+                        type="submit"
+                        [disabled]="bookingForm.invalid"
+                        >Book</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<ng-template #loading>Loading</ng-template>

@@ -1,0 +1,36 @@
+<div  *ngIf="listings[0]; else loading">
+    <h1>Listings for {{ country }}</h1>
+
+    <div>
+        <button type="button" (click)="getBack()">Back</button>
+    </div>
+    
+    <br>
+    <div>
+        <table border="1">
+            <thead>
+                <th>Address Street</th>
+                <th>Price</th>
+                <th>Image</th>
+                <th></th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let listing of listings">
+                    <td>{{ listing.addressStreet }}</td>
+                    <td>{{ listing.price }}</td>
+                    <td>
+                        <img [src]="listing.image" width="500">
+                    </td>
+                    <td>
+                        <button 
+                            type="button" 
+                            (click)="getDetails(listing.id)"
+                            >Details</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<ng-template #loading>Loading</ng-template>
